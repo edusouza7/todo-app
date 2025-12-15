@@ -9,30 +9,35 @@
 </head>
 <body>
 
-    <main class="app">
-        <h1>Minha Lista de Tarefas</h1>
+<main class="app">
 
-        <form class="task-form">
-            <input 
-                type="text" 
-                id="task-input" 
-                placeholder="Digite uma tarefa"
-            />
-            <button type="submit">Adicionar</button>
-        </form>
-            <div class="filters">
-                <button class="clear-completed">
-                  Limpar concluídas
-                </button>
-                <button data-filter="all" class="active">Todas</button>
-                <button data-filter="pending">Pendentes</button>
-                <button data-filter="completed">Concluídas</button>
-            </div>
-            <div class="task-counter"></div>
+    <h1>Minha Lista de Tarefas</h1>
 
-        <ul id="task-list"></ul>
-    </main>
+    <form class="task-form">
+        <label for="task-input" class="sr-only">Nova tarefa</label>
 
-    <script type="module" src="script.js"></script>
+        <input
+            type="text"
+            id="task-input"
+            placeholder="Digite uma tarefa"
+        />
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <div class="filters">
+        <button data-filter="all" class="active">Todas</button>
+        <button data-filter="pending">Pendentes</button>
+        <button data-filter="completed">Concluídas</button>
+    </div>
+
+    <button class="clear-completed">Limpar concluídas</button>
+
+    <div class="task-counter"></div>
+
+    <ul id="task-list"></ul>
+
+</main>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>

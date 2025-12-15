@@ -3,7 +3,7 @@ export let currentFilter = "all";
 export function setupFilters(applyFilter) {
     const filters = document.querySelector(".filters");
 
-    filters.addEventListener("click", function (event) {
+    filters.addEventListener("click", event => {
         if (event.target.tagName !== "BUTTON") return;
 
         currentFilter = event.target.dataset.filter;
@@ -19,14 +19,10 @@ export function setupFilters(applyFilter) {
 
 export function applyFilter(filter) {
     document.querySelectorAll("#task-list li").forEach(li => {
-        const isCompleted = li.classList.contains("completed");
+        const done = li.classList.contains("completed");
 
-        if (filter === "all") {
-            li.style.display = "";
-        } else if (filter === "completed") {
-            li.style.display = isCompleted ? "" : "none";
-        } else if (filter === "pending") {
-            li.style.display = !isCompleted ? "" : "none";
-        }
+        if (filter === "all") li.style.display = "";
+        if (filter === "completed") li.style.display = done ? "" : "none";
+        if (filter === "pending") li.style.display = !done ? "" : "none";
     });
 }

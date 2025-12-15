@@ -12,9 +12,9 @@ export function saveTasks() {
 }
 
 export function loadTasks(createTask) {
-    const storedTasks = localStorage.getItem("tasks");
-    if (!storedTasks) return;
+    const stored = localStorage.getItem("tasks");
+    if (!stored) return;
 
-    const tasks = JSON.parse(storedTasks);
+    const tasks = JSON.parse(stored);
     tasks.forEach(task => createTask(task.text, task.completed));
 }

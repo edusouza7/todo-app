@@ -4,6 +4,7 @@ import { updateCounter } from "./counter.js";
 
 export function createTask(text, completed = false) {
     const taskList = document.querySelector("#task-list");
+
     const li = document.createElement("li");
 
     const span = document.createElement("span");
@@ -12,26 +13,29 @@ export function createTask(text, completed = false) {
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "✕";
     removeBtn.classList.add("remove-btn");
+    removeBtn.setAttribute("aria-label", "Remover tarefa");
 
     if (completed) li.classList.add("completed");
 
-    span.addEventListener("click", function () {
+    span.addEventListener("click", () => {
         li.classList.toggle("completed");
         applyFilter(currentFilter);
         saveTasks();
         updateCounter();
     });
 
-    span.addEventListener("dblclick", function () {
+    span.addEventListener("dblclick", () => {
         const inputEdit = document.createElement("input");
-        inputEdit.type = "text";
         inputEdit.value = span.textContent;
 
         li.replaceChild(inputEdit, span);
         inputEdit.focus();
 
         function finishEdit() {
-            span.textContent = inputEdit.value.trim() || span.textContent;
+            const newText = inputEdit.value.trim();
+            if (newText === "") return;
+
+            span.textContent = newText;
             li.replaceChild(span, inputEdit);
             saveTasks();
         }
@@ -42,7 +46,7 @@ export function createTask(text, completed = false) {
         });
     });
 
-    removeBtn.addEventListener("click", function () {
+    removeBtn.addEventListener("click", () => {
         li.remove();
         saveTasks();
         updateCounter();

@@ -3,6 +3,6 @@ export function updateCounter() {
     const completed = document.querySelectorAll("#task-list li.completed").length;
     const pending = total - completed;
 
-    const counter = document.querySelector(".task-counter");
-    counter.textContent = `${pending} pendentes · ${completed} concluídas · ${total} no total`;
+    document.querySelector(".task-counter").textContent =
+        `${pending} pendentes · ${completed} concluídas · ${total} no total`;
 }
