@@ -5,22 +5,22 @@ const taskList = document.querySelector("#task-list");
 
 // Escuta o envio do formulário
 form.addEventListener("submit", function (event) {
-    event.preventDefault(); // evita recarregar a página
+    event.preventDefault();
 
     const taskText = input.value.trim();
 
-    // Regra de negócio básica
     if (taskText === "") {
         return;
     }
 
-    // Criação do item da lista
     const li = document.createElement("li");
     li.textContent = taskText;
 
-    // Adiciona na tela
-    taskList.appendChild(li);
+    // Regra: marcar como concluída ao clicar
+    li.addEventListener("click", function () {
+        li.classList.toggle("completed");
+    });
 
-    // Limpa o campo
+    taskList.appendChild(li);
     input.value = "";
 });
