@@ -7,10 +7,8 @@ const taskList = document.querySelector("#task-list");
 // Persistência
 // ==============================
 
-// Carrega tarefas ao iniciar
 document.addEventListener("DOMContentLoaded", loadTasks);
 
-// Salva tarefas no localStorage
 function saveTasks() {
     const tasks = [];
 
@@ -24,16 +22,12 @@ function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Carrega tarefas do localStorage
 function loadTasks() {
     const storedTasks = localStorage.getItem("tasks");
     if (!storedTasks) return;
 
     const tasks = JSON.parse(storedTasks);
-
-    tasks.forEach(task => {
-        createTask(task.text, task.completed);
-    });
+    tasks.forEach(task => createTask(task.text, task.completed));
 }
 
 // ==============================
@@ -48,11 +42,9 @@ form.addEventListener("submit", function (event) {
 
     createTask(taskText);
     input.value = "";
-
     saveTasks();
 });
 
-// Função central de criação (reutilizável)
 function createTask(text, completed = false) {
     const li = document.createElement("li");
 
@@ -67,11 +59,36 @@ function createTask(text, completed = false) {
         li.classList.add("completed");
     }
 
+    // Concluir tarefa
     span.addEventListener("click", function () {
         li.classList.toggle("completed");
         saveTasks();
     });
 
+    // Editar tarefa (duplo clique)
+    span.addEventListener("dblclick", function () {
+        const inputEdit = document.createElement("input");
+        inputEdit.type = "text";
+        inputEdit.value = span.textContent;
+
+        li.replaceChild(inputEdit, span);
+        inputEdit.focus();
+
+        function finishEdit() {
+            span.textContent = inputEdit.value.trim() || span.textContent;
+            li.replaceChild(span, inputEdit);
+            saveTasks();
+        }
+
+        inputEdit.addEventListener("blur", finishEdit);
+        inputEdit.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                finishEdit();
+            }
+        });
+    });
+
+    // Remover tarefa
     removeBtn.addEventListener("click", function () {
         li.remove();
         saveTasks();

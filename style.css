@@ -76,3 +76,8 @@ li.completed span {
 .remove-btn:hover {
     opacity: 0.7;
 }
+li input {
+    flex: 1;
+    padding: 4px;
+    font-size: 14px;
+}
