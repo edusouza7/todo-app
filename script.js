@@ -7,6 +7,7 @@ const input = document.querySelector("#task-input");
 const taskList = document.querySelector("#task-list");
 const filters = document.querySelector(".filters");
 const clearCompletedBtn = document.querySelector(".clear-completed");
+const counter = document.querySelector(".task-counter");
 
 // ==============================
 // Persistência
@@ -33,6 +34,8 @@ function loadTasks() {
 
     const tasks = JSON.parse(storedTasks);
     tasks.forEach(task => createTask(task.text, task.completed));
+
+    updateCounter();
 }
 
 // ==============================
@@ -48,6 +51,7 @@ form.addEventListener("submit", function (event) {
     createTask(taskText);
     input.value = "";
     saveTasks();
+    updateCounter();
 });
 
 function createTask(text, completed = false) {
@@ -67,6 +71,7 @@ function createTask(text, completed = false) {
         li.classList.toggle("completed");
         applyFilter(currentFilter);
         saveTasks();
+        updateCounter();
     });
 
     // Editar tarefa
@@ -94,6 +99,7 @@ function createTask(text, completed = false) {
     removeBtn.addEventListener("click", function () {
         li.remove();
         saveTasks();
+        updateCounter();
     });
 
     li.appendChild(span);
@@ -101,6 +107,7 @@ function createTask(text, completed = false) {
     taskList.appendChild(li);
 
     applyFilter(currentFilter);
+    updateCounter();
 }
 
 // ==============================
@@ -138,7 +145,7 @@ function applyFilter(filter) {
 }
 
 // ==============================
-// Limpar tarefas concluídas (NOVO)
+// Limpar tarefas concluídas
 // ==============================
 
 clearCompletedBtn.addEventListener("click", function () {
@@ -148,4 +155,17 @@ clearCompletedBtn.addEventListener("click", function () {
 
     saveTasks();
     applyFilter(currentFilter);
+    updateCounter();
 });
+
+// ==============================
+// Contador de tarefas (NOVO)
+// ==============================
+
+function updateCounter() {
+    const total = document.querySelectorAll("#task-list li").length;
+    const completed = document.querySelectorAll("#task-list li.completed").length;
+    const pending = total - completed;
+
+    counter.textContent = `${pending} pendentes · ${completed} concluídas · ${total} no total`;
+}

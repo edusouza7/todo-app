@@ -112,3 +112,8 @@ li input {
 .clear-completed:hover {
     opacity: 0.85;
 }
+.task-counter {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+}
