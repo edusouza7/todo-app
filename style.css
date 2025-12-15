@@ -98,3 +98,17 @@ li input {
     color: #fff;
     border: none;
 }
+.clear-completed {
+    margin-bottom: 12px;
+    padding: 6px;
+    width: 100%;
+    cursor: pointer;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.clear-completed:hover {
+    opacity: 0.85;
+}
