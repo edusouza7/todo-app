@@ -3,46 +3,81 @@ const form = document.querySelector(".task-form");
 const input = document.querySelector("#task-input");
 const taskList = document.querySelector("#task-list");
 
-// Escuta o envio do formulário
+// ==============================
+// Persistência
+// ==============================
+
+// Carrega tarefas ao iniciar
+document.addEventListener("DOMContentLoaded", loadTasks);
+
+// Salva tarefas no localStorage
+function saveTasks() {
+    const tasks = [];
+
+    document.querySelectorAll("#task-list li").forEach(li => {
+        tasks.push({
+            text: li.querySelector("span").textContent,
+            completed: li.classList.contains("completed")
+        });
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Carrega tarefas do localStorage
+function loadTasks() {
+    const storedTasks = localStorage.getItem("tasks");
+    if (!storedTasks) return;
+
+    const tasks = JSON.parse(storedTasks);
+
+    tasks.forEach(task => {
+        createTask(task.text, task.completed);
+    });
+}
+
+// ==============================
+// Criação de tarefa
+// ==============================
+
 form.addEventListener("submit", function (event) {
-    event.preventDefault(); // evita recarregar a página
+    event.preventDefault();
 
     const taskText = input.value.trim();
+    if (taskText === "") return;
 
-    // Regra de negócio básica
-    if (taskText === "") {
-        return;
-    }
+    createTask(taskText);
+    input.value = "";
 
-    // Criação do item da lista
+    saveTasks();
+});
+
+// Função central de criação (reutilizável)
+function createTask(text, completed = false) {
     const li = document.createElement("li");
 
-    // Texto da tarefa
     const span = document.createElement("span");
-    span.textContent = taskText;
+    span.textContent = text;
 
-    // Botão de remover
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "✕";
     removeBtn.classList.add("remove-btn");
 
-    // Marcar como concluída
+    if (completed) {
+        li.classList.add("completed");
+    }
+
     span.addEventListener("click", function () {
         li.classList.toggle("completed");
+        saveTasks();
     });
 
-    // Remover tarefa
     removeBtn.addEventListener("click", function () {
         li.remove();
+        saveTasks();
     });
 
-    // Montagem do item
     li.appendChild(span);
     li.appendChild(removeBtn);
-
-    // Adiciona na lista
     taskList.appendChild(li);
-
-    // Limpa o input
-    input.value = "";
-});
+}
