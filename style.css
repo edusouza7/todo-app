@@ -54,3 +54,25 @@ li.completed {
     text-decoration: line-through;
     opacity: 0.6;
 }
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li.completed span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.remove-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #dc3545;
+}
+
+.remove-btn:hover {
+    opacity: 0.7;
+}
