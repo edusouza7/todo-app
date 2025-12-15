@@ -2,6 +2,7 @@
 const form = document.querySelector(".task-form");
 const input = document.querySelector("#task-input");
 const taskList = document.querySelector("#task-list");
+const filters = document.querySelector(".filters");
 
 // ==============================
 // Persistência
@@ -55,17 +56,16 @@ function createTask(text, completed = false) {
     removeBtn.textContent = "✕";
     removeBtn.classList.add("remove-btn");
 
-    if (completed) {
-        li.classList.add("completed");
-    }
+    if (completed) li.classList.add("completed");
 
     // Concluir tarefa
     span.addEventListener("click", function () {
         li.classList.toggle("completed");
+        applyFilter(currentFilter);
         saveTasks();
     });
 
-    // Editar tarefa (duplo clique)
+    // Editar tarefa
     span.addEventListener("dblclick", function () {
         const inputEdit = document.createElement("input");
         inputEdit.type = "text";
@@ -82,9 +82,7 @@ function createTask(text, completed = false) {
 
         inputEdit.addEventListener("blur", finishEdit);
         inputEdit.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                finishEdit();
-            }
+            if (e.key === "Enter") finishEdit();
         });
     });
 
@@ -97,4 +95,40 @@ function createTask(text, completed = false) {
     li.appendChild(span);
     li.appendChild(removeBtn);
     taskList.appendChild(li);
+
+    applyFilter(currentFilter);
+}
+
+// ==============================
+// Filtros
+// ==============================
+
+let currentFilter = "all";
+
+filters.addEventListener("click", function (event) {
+    if (event.target.tagName !== "BUTTON") return;
+
+    const filter = event.target.dataset.filter;
+    currentFilter = filter;
+
+    document.querySelectorAll(".filters button").forEach(btn =>
+        btn.classList.remove("active")
+    );
+    event.target.classList.add("active");
+
+    applyFilter(filter);
+});
+
+function applyFilter(filter) {
+    document.querySelectorAll("#task-list li").forEach(li => {
+        const isCompleted = li.classList.contains("completed");
+
+        if (filter === "all") {
+            li.style.display = "";
+        } else if (filter === "completed") {
+            li.style.display = isCompleted ? "" : "none";
+        } else if (filter === "pending") {
+            li.style.display = !isCompleted ? "" : "none";
+        }
+    });
 }

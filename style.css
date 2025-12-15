@@ -81,3 +81,20 @@ li input {
     padding: 4px;
     font-size: 14px;
 }
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.filters button {
+    flex: 1;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.filters button.active {
+    background: #007bff;
+    color: #fff;
+    border: none;
+}
