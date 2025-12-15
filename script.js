@@ -1,8 +1,12 @@
-// Captura dos elementos do DOM
+// ==============================
+// Conexão com o DOM
+// ==============================
+
 const form = document.querySelector(".task-form");
 const input = document.querySelector("#task-input");
 const taskList = document.querySelector("#task-list");
 const filters = document.querySelector(".filters");
+const clearCompletedBtn = document.querySelector(".clear-completed");
 
 // ==============================
 // Persistência
@@ -86,7 +90,7 @@ function createTask(text, completed = false) {
         });
     });
 
-    // Remover tarefa
+    // Remover tarefa individual
     removeBtn.addEventListener("click", function () {
         li.remove();
         saveTasks();
@@ -114,8 +118,8 @@ filters.addEventListener("click", function (event) {
     document.querySelectorAll(".filters button").forEach(btn =>
         btn.classList.remove("active")
     );
-    event.target.classList.add("active");
 
+    event.target.classList.add("active");
     applyFilter(filter);
 });
 
@@ -132,3 +136,16 @@ function applyFilter(filter) {
         }
     });
 }
+
+// ==============================
+// Limpar tarefas concluídas (NOVO)
+// ==============================
+
+clearCompletedBtn.addEventListener("click", function () {
+    document.querySelectorAll("#task-list li.completed").forEach(li => {
+        li.remove();
+    });
+
+    saveTasks();
+    applyFilter(currentFilter);
+});
